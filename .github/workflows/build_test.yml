@@ -17,6 +17,15 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Merge into "stable" Branch
+      if: success()
+      run: |
+        git fetch origin stable
+        git checkout stable
+        echo "---BRANCH LIST START---" && git --no-pager branch -a && echo "---BRANCH LIST START---"
+        git merge develop
+        git push
+
     - name: Set Up Rust
       uses: actions-rs/toolchain@v1
       with:
@@ -34,6 +43,6 @@ jobs:
       run: |
         git fetch origin stable
         git checkout stable
-        echo "---BRANCH LIST START---" && git --no-pager branch && echo "---BRANCH LIST START---"
+        echo "---BRANCH LIST START---" && git --no-pager branch -a && echo "---BRANCH LIST START---"
         git merge develop
         git push

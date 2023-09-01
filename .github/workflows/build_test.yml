@@ -33,6 +33,7 @@ jobs:
       if: success()
       run: |
         git fetch origin stable
+        git --no-pager branch
         git checkout stable
-        git merge origin/develop
+        git merge develop
         git push

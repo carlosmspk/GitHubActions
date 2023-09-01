@@ -9,6 +9,7 @@
 /// assert_eq!(return_hello(), String::from("Hello"))
 /// ```
 pub fn return_hello() -> String {
+    println!("Lol");
     "Hello".to_string()
 }
 

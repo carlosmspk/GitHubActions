@@ -1,0 +1,17 @@
+name: Verify PR is Not Targeting Stable
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Branch target is not 'stable'
+        run: |
+          if [ ${{ github.base_ref }} == "stable" ]; then
+            echo "Merge requests to stable branch are not allowed. Any update to 'stable' branch is applied automatically after updating 'develop'"
+            exit 1
+          fi

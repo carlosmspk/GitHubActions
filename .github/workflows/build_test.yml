@@ -33,7 +33,7 @@ jobs:
       if: success()
       run: |
         git fetch origin stable
-        echo "---BRANCH LIST START---" && git --no-pager branch && echo "---BRANCH LIST START---"
         git checkout stable
+        echo "---BRANCH LIST START---" && git --no-pager branch && echo "---BRANCH LIST START---"
         git merge develop
         git push

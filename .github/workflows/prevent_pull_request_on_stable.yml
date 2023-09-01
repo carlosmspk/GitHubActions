@@ -1,0 +1,40 @@
+name: Block Pull Requests to Stable
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  block_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Target Branch
+        id: check_target_branch
+        run: |
+          target_branch="${{ github.event.pull_request.base.ref }}"
+          if [[ "$target_branch" == "stable" ]]; then
+            echo "::error::Pull requests targeting 'stable' branch are not allowed."
+          fi
+
+      - name: Set Status Check
+        if: steps.check_target_branch.outcome == 'failure'
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Block Stable PR',
+              head_sha: context.payload.pull_request.head.sha,
+              status: 'completed',
+              conclusion: 'failure',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Blocked Stable PR',
+                summary: 'Pull requests targeting the "stable" branch are not allowed.',
+              },
+            });

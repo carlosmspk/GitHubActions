@@ -31,7 +31,7 @@ jobs:
     - name: Test
       run: cargo test
 
-    - name: Merge into "stable" Branch
+    - name: Merge into Stable
       if: success()
       run: |
         git checkout stable

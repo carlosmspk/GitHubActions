@@ -32,6 +32,7 @@ jobs:
     - name: Merge into "stable" Branch
       if: success()
       run: |
+        echo "Something"
         git fetch origin stable
         git checkout stable
         git merge develop

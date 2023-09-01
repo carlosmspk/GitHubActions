@@ -29,7 +29,7 @@ jobs:
     - name: Merge into "stable" Branch
       if: success()
       run: |
-        git --no-pager branch
+        git fetch origin stable
         git checkout stable
         git merge develop
         git push origin stable

@@ -1,0 +1,35 @@
+name: Rust Build and Test
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set Up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+
+    - name: Build
+      run: cargo build --release
+
+    - name: Test
+      run: cargo test
+
+    - name: Merge into "stable" Branch
+      if: success()
+      run: |
+        git --no-pager branch
+        git checkout stable
+        git merge develop
+        git push origin stable
